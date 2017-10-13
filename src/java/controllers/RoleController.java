@@ -23,17 +23,22 @@ public class RoleController implements Controller {
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
         ModelAndView mv = null;
         switch (hsr.getMethod()) {
-            case "GET":
+            case "GET": 
                 mv = get();
                 break;
                 
             case "POST":
+                save(hsr);
+                mv = get();
+               
                 break;
                 
             case "PUT":
+                mv = get();
                 break;
                 
             case "DELETE":
+                mv = get();
                 break;
         }
 
@@ -52,5 +57,15 @@ public class RoleController implements Controller {
             e.printStackTrace();
         }
         return mv;
+    }
+    
+     private void save(HttpServletRequest hsr) {
+        
+
+        System.out.println("----- title -----");
+        System.out.println(hsr.getParameter("title"));
+
+    
+        
     }
 }

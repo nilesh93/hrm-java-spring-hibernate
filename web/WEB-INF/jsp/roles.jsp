@@ -10,8 +10,16 @@
 <%@include file="header.jsp" %>
 
             
-             <h1>Roles</h1>
-             <button class="btn btn-info"  data-toggle="modal" data-target="#addModal"> Add Role</button>
+                <div class="row">
+                    <div class="col-md-8">
+                        <h1>Roles</h1>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-default"  data-toggle="modal" data-target="#addModal"> Add Role</button>
+                    </div>
+                </div>
+             <br>
+            
              <table class="table table-hover table-striped">
                  <thead>
                     <th>ID</th>
@@ -29,7 +37,7 @@
              </table>
         
         
-        <div class="modal" id="addModal">
+        <div class="modal fade" id="addModal">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -57,7 +65,7 @@
           </div>
 
 
-          <div class="modal" id="editModal">
+          <div class="modal fade" id="editModal">
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
