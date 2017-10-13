@@ -29,12 +29,14 @@
         <thead>
         <th>ID</th>
         <th>Role Name</th>
+        <th>Actions</th>
     </thead>
     <tbody>
     <c:forEach var="role" items="${roles}">
         <tr>
             <td> <c:out value="${role.getId()}"></c:out> </td>
             <td> <c:out value="${role.getTitle()}"></c:out> </td>
+                <td>  <button type="button" class="btn btn-sm btn-default" onclick="edit(${role.getId()},'${role.getTitle()}')"> EDIT </button>< /td>
             </tr>
     </c:forEach>
 </tbody>
@@ -108,6 +110,7 @@
 <script>
 
     function edit(id, name) {
+        console.log(id,name);
         $("#rolename").val(name);
         $("#roleid").val(id);
         $("#editModal").modal("show");
