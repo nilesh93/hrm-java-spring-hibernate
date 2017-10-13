@@ -25,16 +25,22 @@ public class RoleController implements Controller {
         switch (hsr.getMethod()) {
             case "GET": 
                 mv = get();
+                mv.addObject("flag",false);
+              
                 break;
                 
             case "POST":
                 save(hsr);
                 mv = get();
-               
+                mv.addObject("flag",true);
+                mv.addObject("message", "Role Added Successfully!");
                 break;
                 
             case "PUT":
+                update(hsr);
                 mv = get();
+                mv.addObject("flag",true);
+                mv.addObject("message", "Role Edited Successfully!");
                 break;
                 
             case "DELETE":
@@ -59,13 +65,19 @@ public class RoleController implements Controller {
         return mv;
     }
     
-     private void save(HttpServletRequest hsr) {
+     private void save(HttpServletRequest hsr) {        
+        Role role = new Role();
+        role.setTitle(hsr.getParameter("title"));
+        RoleDAO.saveOrUpdateRole(role);
         
-
-        System.out.println("----- title -----");
-        System.out.println(hsr.getParameter("title"));
-
-    
+    }
+     
+    private void update(HttpServletRequest hsr) {
+        
+        Role role = new Role();
+        role.setTitle(hsr.getParameter("title"));
+        role.setId(Integer.parseInt(hsr.getParameter("id")));
+        RoleDAO.saveOrUpdateRole(role);
         
     }
 }

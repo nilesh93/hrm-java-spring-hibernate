@@ -40,4 +40,23 @@ public class RoleDAO {
         }
         return roleList;
     }
+    
+    
+    public static void saveOrUpdateRole(Role role){
+        Transaction transaction = null;
+        Session session = null;
+        try{
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            session.saveOrUpdate(role);
+            transaction.commit();
+        } catch(HibernateException e){
+            if (transaction != null) {
+                transaction.rollback();
+                e.printStackTrace();
+            }
+        } finally{
+            session.close();
+        }
+    }
 }
