@@ -48,8 +48,8 @@ Contributor(s):
         <property name="hibernate.connection.password">123</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.current_session_context_class">thread</property>
-        <mapping class="entities.Employee"/>
-        <mapping class="entities.Task"/>
-        <mapping class="entities.Role"/>
+        <mapping class="models.Employee"/>
+        <mapping class="models.Task"/>
+        <mapping class="models.Role"/>
     </session-factory>
 </hibernate-configuration>

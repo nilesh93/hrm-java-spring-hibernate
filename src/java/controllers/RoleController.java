@@ -21,16 +21,36 @@ public class RoleController implements Controller {
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
-        ModelAndView mv = new ModelAndView("role");
-
-        try {
-            List<Role> roles = RoleDAO.get();
-            mv.addObject("roles",roles);
-        } catch (Exception e) {
-            e.printStackTrace();
+        ModelAndView mv = null;
+        switch (hsr.getMethod()) {
+            case "GET":
+                mv = get();
+                break;
+                
+            case "POST":
+                break;
+                
+            case "PUT":
+                break;
+                
+            case "DELETE":
+                break;
         }
 
         return mv;
     }
 
+    private ModelAndView get() {
+        
+        ModelAndView mv = new ModelAndView("roles");
+
+        try {
+            List<Role> roles = RoleDAO.get();
+
+            mv.addObject("roles", roles);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mv;
+    }
 }
