@@ -14,11 +14,18 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 /**
- *
+ * Maps to roles.htm
  * @author nileshjayanandana
  */
 public class RoleController implements Controller {
 
+    /**
+     * Handles Controller Requests
+     * @param hsr
+     * @param hsr1
+     * @return
+     * @throws Exception 
+     */
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
         ModelAndView mv = null;
@@ -56,6 +63,10 @@ public class RoleController implements Controller {
         return mv;
     }
 
+    /**
+     * Returns Role List View
+     * @return 
+     */
     private ModelAndView get() {
 
         ModelAndView mv = new ModelAndView("roles");
@@ -70,6 +81,10 @@ public class RoleController implements Controller {
         return mv;
     }
 
+    /**
+     * Saves a Role through POST
+     * @param hsr 
+     */
     private void save(HttpServletRequest hsr) {
         Role role = new Role();
         role.setTitle(hsr.getParameter("title"));
@@ -77,6 +92,10 @@ public class RoleController implements Controller {
 
     }
 
+    /**
+     * Updates a Role through PUT
+     * @param hsr 
+     */
     private void update(HttpServletRequest hsr) {
 
         Role role = new Role();

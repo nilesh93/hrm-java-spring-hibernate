@@ -9,8 +9,6 @@ import daos.EmployeeDAO;
 import daos.RoleDAO;
 import daos.TaskDAO;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Employee;
@@ -20,11 +18,18 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 /**
- *
+ * Maps to eview.htm
  * @author Nilesh
  */
 public class EmployeeViewController implements Controller {
 
+    /**
+     * Handle requests to this controller
+     * @param hsr
+     * @param hsr1
+     * @return
+     * @throws Exception 
+     */
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
         ModelAndView mv = null;
@@ -73,6 +78,11 @@ public class EmployeeViewController implements Controller {
         return mv;
     }
 
+    /**
+     * Generates EmployeeView View from employee ID
+     * @param id
+     * @return 
+     */
     private ModelAndView getEmployee(Integer id) {
 
         ModelAndView mv = new ModelAndView("employee-view");
@@ -91,6 +101,10 @@ public class EmployeeViewController implements Controller {
         return mv;
     }
 
+    /**
+     * Updates employee through PATCH request
+     * @param hsr 
+     */
     private void patchEmployee(HttpServletRequest hsr) {
         Employee emp;
         try {
@@ -102,6 +116,10 @@ public class EmployeeViewController implements Controller {
         }
     }
 
+    /**
+     * Change Employee Role by assigning an unassigned Role or removing existing role
+     * @param hsr 
+     */
     private void changeRole(HttpServletRequest hsr) {
         Employee emp;
         try {
@@ -121,6 +139,10 @@ public class EmployeeViewController implements Controller {
 
     }
 
+    /**
+     * Add Employee Task from an existing Task
+     * @param hsr 
+     */
     private void addEmployeeTask(HttpServletRequest hsr) {
         Employee emp;
         try {
@@ -139,6 +161,10 @@ public class EmployeeViewController implements Controller {
 
     }
     
+    /**
+     * Remove Employee Task by removing Employee reference in a Task retrieved from TaskID
+     * @param hsr 
+     */
     private void removeEmployeeTask(HttpServletRequest hsr) {
         
         try {

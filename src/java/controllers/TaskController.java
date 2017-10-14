@@ -20,11 +20,18 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 /**
- *
+ * Maps to tasks.htm
  * @author Nilesh
  */
 public class TaskController implements Controller {
 
+    /**
+     * Main Request Handler for this controller
+     * @param hsr
+     * @param hsr1
+     * @return
+     * @throws Exception 
+     */
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
         ModelAndView mv = null;
@@ -62,6 +69,10 @@ public class TaskController implements Controller {
         return mv;
     }
 
+    /**
+     * Generate view for Task List
+     * @return 
+     */
     private ModelAndView get() {
 
         ModelAndView mv = new ModelAndView("tasks");
@@ -75,12 +86,20 @@ public class TaskController implements Controller {
         return mv;
     }
 
+    /**
+     * Save Task through POST
+     * @param hsr 
+     */
     private void save(HttpServletRequest hsr) {
         Task task = new Task();
         task.setDescription(hsr.getParameter("desc"));
         TaskDAO.saveOrUpdateTask(task);
     }
 
+    /**
+     * Update Task through PUT
+     * @param hsr 
+     */
     private void update(HttpServletRequest hsr) {
 
         Task task = new Task();

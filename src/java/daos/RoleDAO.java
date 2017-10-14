@@ -19,6 +19,10 @@ import util.HibernateUtil;
  */
 public class RoleDAO {
 
+    /**
+     * Get Role List
+     * @return 
+     */
     public static List<Role> get() {
         List<Role> roleList = null;
         Transaction transaction = null;
@@ -41,7 +45,10 @@ public class RoleDAO {
         return roleList;
     }
     
-    
+    /**
+     * Save or Update Role
+     * @param role 
+     */
     public static void saveOrUpdateRole(Role role){
         Transaction transaction = null;
         Session session = null;

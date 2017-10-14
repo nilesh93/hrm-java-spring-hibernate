@@ -9,7 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
 /**
- *
+ * 
  * @author nileshjayanandana
  */
 public class HibernateUtil {
@@ -28,6 +28,10 @@ public class HibernateUtil {
         }
     }
 
+    /**
+     * get Singleton Object
+     * @return 
+     */
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }

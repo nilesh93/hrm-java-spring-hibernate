@@ -16,11 +16,18 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 /**
- *
+ * Maps to route employee.htm
  * @author Nilesh
  */
 public class EmployeeController implements Controller {
 
+    /**
+     * Handle  requests
+     * @param hsr
+     * @param hsr1
+     * @return
+     * @throws Exception 
+     */
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
 
@@ -48,6 +55,11 @@ public class EmployeeController implements Controller {
         return mv;
     }
 
+    /**
+     * Generate Employee List View
+     *
+     * @return
+     */
     private ModelAndView get() {
 
         ModelAndView mv = new ModelAndView("employees");
@@ -63,6 +75,11 @@ public class EmployeeController implements Controller {
         return mv;
     }
 
+    /**
+     * Save new Employee
+     *
+     * @param hsr
+     */
     private void save(HttpServletRequest hsr) {
         Employee emp = new Employee();
         int roleId = Integer.parseInt(hsr.getParameter("role"));

@@ -20,6 +20,10 @@ import util.HibernateUtil;
  */
 public class EmployeeDAO {
 
+    /**
+     * Get Employee List from Query
+     * @return Employee List
+     */
     public static List getEmployeeList() {
 
         List<Employee> employeeList = null;
@@ -49,6 +53,10 @@ public class EmployeeDAO {
 
     }
 
+    /**
+     * Save or Update an Employee
+     * @param emp
+     */
     public static void saveOrUpdateEmployee(Employee emp) {
         Transaction transaction = null;
         Session session = null;
@@ -68,9 +76,9 @@ public class EmployeeDAO {
     }
     
     /**
-     *
+     * Get Employee Details from an ID
      * @param id
-     * @return
+     * @return Employee
      */
     public static Employee getEmployee(Integer id) throws Exception {
 

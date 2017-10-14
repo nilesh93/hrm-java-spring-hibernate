@@ -19,6 +19,10 @@ import util.HibernateUtil;
  */
 public class TaskDAO {
 
+    /**
+     * Get Task List
+     * @return 
+     */
     public static List getTaskList() {
 
         List<Task> taskList = null;
@@ -44,6 +48,10 @@ public class TaskDAO {
 
     }
 
+    /**
+     * Save or Update Task
+     * @param task 
+     */
     public static void saveOrUpdateTask(Task task) {
 
         Transaction transaction = null;
@@ -68,6 +76,10 @@ public class TaskDAO {
 
     }
 
+    /**
+     * Retrieve Unassigned Tasks as List
+     * @return 
+     */
     public static List getTaskUnasignedTasks() {
 
         List<Task> taskList = null;
@@ -93,6 +105,12 @@ public class TaskDAO {
 
     }
 
+    /**
+     * Get a Task by ID
+     * @param id
+     * @return
+     * @throws Exception 
+     */
     public static Task getTaskById(Integer id) throws Exception {
 
         List<Task> taskList = null;
