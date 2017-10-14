@@ -22,7 +22,11 @@ public class RoleController implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
         ModelAndView mv = null;
-        switch (hsr.getMethod()) {
+        String method = hsr.getMethod();
+        if(method == "POST"){
+             method = hsr.getParameter("_method");
+        }
+        switch (method) {
             case "GET": 
                 mv = get();
                 mv.addObject("flag",false);
@@ -38,6 +42,7 @@ public class RoleController implements Controller {
                 
             case "PUT":
                 update(hsr);
+           
                 mv = get();
                 mv.addObject("flag",true);
                 mv.addObject("message", "Role Edited Successfully!");
@@ -47,10 +52,10 @@ public class RoleController implements Controller {
                 mv = get();
                 break;
         }
-
+        mv.addObject("page","role");
         return mv;
     }
-
+ 
     private ModelAndView get() {
         
         ModelAndView mv = new ModelAndView("roles");

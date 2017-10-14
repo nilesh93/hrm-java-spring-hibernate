@@ -11,33 +11,34 @@
 
 
 <div class="row">
-    <div class="col-md-8">
-        <h1>Roles</h1>
+    <div class="col-md-12">
+        <h1>Roles  <button class="btn btn-info pull-right" style="margin-top:1%" data-toggle="modal" data-target="#addModal"> Add Role</button></h1>
     </div>
-    <div class="col-md-4">
-        <button class="btn btn-default"  data-toggle="modal" data-target="#addModal"> Add Role</button>
-    </div>
+
 </div>
 <br>
-<c:if test="${flag}"></c:if>
+<c:if test="${flag}">
     <div class="alert alert-dismissible alert-success">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <strong>Success!</strong> <c:out value="${message}"></c:out>.
-    </div>
-    <br>
-    <table class="table table-hover table-striped">
-        <thead>
-        <th>ID</th>
-        <th>Role Name</th>
-        <th>Actions</th>
-    </thead>
-    <tbody>
+        </div>
+</c:if>
+<br>
+<table class="table table-hover table-striped table-condensed">
+    <thead>
+    <th>ID</th>
+    <th>Role Name</th>
+    <th style="width:90px">Actions</th>
+</thead>
+<tbody>
     <c:forEach var="role" items="${roles}">
         <tr>
             <td> <c:out value="${role.getId()}"></c:out> </td>
             <td> <c:out value="${role.getTitle()}"></c:out> </td>
-                <td>  <button type="button" class="btn btn-sm btn-default" onclick="edit(${role.getId()},'${role.getTitle()}')"> EDIT </button>< /td>
-            </tr>
+                <td>  
+                    <button type="button" class="btn btn-xs btn-default btn-block" onclick="edit(${role.getId()}, '${role.getTitle()}')"> EDIT </button>
+            </td>
+        </tr>
     </c:forEach>
 </tbody>
 
@@ -53,9 +54,9 @@
             </div>
             <form class="form-horizontal" action="role.htm"  method="post">
                 <div class="modal-body">
-
+                    <input type="hidden" name="_method" value="POST">
                     <div class="form-group">
-                        <label for="" class="col-md-4 control">Role Name</label>
+                        <label for="" class="col-md-4 control-label">Role Name</label>
                         <div class="col-md-8">
                             <input type="text" name="title" class="form-control">
                         </div>
@@ -79,16 +80,17 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Edit Role</h4>
             </div>
-            <form class="form-horizontal" action="role.htm"  method="put">
+            <form class="form-horizontal" action="role.htm"  method="post">
                 <div class="modal-body">
+                    <input type="hidden" name="_method" value="PUT">
                     <div class="form-group">
-                        <label for="" class="col-md-4 control">ID</label>
+                        <label for="" class="col-md-4 control-label">Role ID</label>
                         <div class="col-md-8">
                             <input type="text" name="id" id="roleid" class="form-control" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-md-4 control">Role Name</label>
+                        <label for="" class="col-md-4 control-label">Role Name</label>
                         <div class="col-md-8">
                             <input type="text" name="title" id="rolename" class="form-control">
                         </div>
@@ -110,7 +112,7 @@
 <script>
 
     function edit(id, name) {
-        console.log(id,name);
+        console.log(id, name);
         $("#rolename").val(name);
         $("#roleid").val(id);
         $("#editModal").modal("show");

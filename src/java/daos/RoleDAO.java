@@ -28,7 +28,7 @@ public class RoleDAO {
             transaction = session.beginTransaction();
             Query query = session.createQuery("FROM Role");
             roleList = query.list();
-            System.out.println(roleList);
+           
             transaction.commit();
         } catch (HibernateException e) {
             if (transaction != null) {
