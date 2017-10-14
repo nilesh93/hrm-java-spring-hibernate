@@ -36,7 +36,8 @@
             <td> <c:out value="${role.getId()}"></c:out> </td>
             <td> <c:out value="${role.getTitle()}"></c:out> </td>
                 <td>  
-                    <button type="button" class="btn btn-xs btn-default btn-block" onclick="edit(${role.getId()}, '${role.getTitle()}')"> EDIT </button>
+                    <button type="button" class="btn btn-xs btn-default btn-block" 
+                            onclick="edit(${role.getId()}, '${role.getTitle()}')"> Edit </button>
             </td>
         </tr>
     </c:forEach>

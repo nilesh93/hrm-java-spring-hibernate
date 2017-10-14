@@ -20,7 +20,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="javascript:void()">HRM</a>
+                    <a href="index.htm" class="navbar-brand" href="javascript:void()">HRM</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
@@ -30,12 +30,13 @@
                         <li class="${page == 'role' ? 'active' : ''}">
                              <a  href="roles.htm">Roles</a>
                         </li>
+                         <li class="${page == 'task' ? 'active' : ''}">
+                             <a  href="tasks.htm">Tasks</a>
+                        </li>
                          <li class="${page == 'employee' ? 'active' : ''}">
                              <a  href="employee.htm">Employees</a>
                         </li>
-                          <li class="${page == 'task' ? 'active' : ''}">
-                             <a  href="tasks.htm">Tasks</a>
-                        </li>
+                         
                     </ul>
                 </div>
             </div>

@@ -67,4 +67,57 @@ public class TaskDAO {
         }
 
     }
+
+    public static List getTaskUnasignedTasks() {
+
+        List<Task> taskList = null;
+        Transaction transaction = null;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("FROM Task where employee_id = null");
+            taskList = query.list();
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+                e.printStackTrace();
+            }
+
+        } finally {
+            session.close();
+        }
+
+        return taskList;
+
+    }
+
+    public static Task getTaskById(Integer id) throws Exception {
+
+        List<Task> taskList = null;
+        Transaction transaction = null;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("FROM Task where id=" + id.toString());
+            taskList = query.list();
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+                e.printStackTrace();
+            }
+
+        } finally {
+            session.close();
+        }
+
+        if (taskList.equals(null) || taskList.size() == 0) {
+            throw new Exception("NOT FOUND");
+        }
+        return taskList.get(0);
+
+    }
 }

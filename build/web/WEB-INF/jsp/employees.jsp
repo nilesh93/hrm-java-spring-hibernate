@@ -41,7 +41,7 @@
             <td> <c:out value="${employee.getName()}"></c:out> </td>
              <td>  <c:out value="${employee.getRole().getTitle()}"></c:out> </td>
                 <td>  
-                    <a  href="employee-view.htm?id=${employee.getId()}" 
+                    <a  href="eview.htm?id=${employee.getId()}" 
                     class="btn btn-xs btn-default btn-block" > View </a>
             </td>
            
@@ -66,6 +66,19 @@
                         <label for="" class="col-md-4 control-label">Employee Name</label>
                         <div class="col-md-8">
                             <input type="text" name="name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-md-4 control-label">Employee Role</label>
+                        <div class="col-md-8">
+                            <select type="text" name="role" class="form-control">
+                                <option value="0" selected>No Role</option>
+                                <c:forEach var="role" items="${roles}">
+                                    <c:if test="${role.getEmployee() == null}">
+                                        <option value="${role.getId()}"> <c:out value="${role.getTitle()}"></c:out> </option>
+                                    </c:if>
+                                </c:forEach>
+                            </select>
                         </div>
                     </div>
 

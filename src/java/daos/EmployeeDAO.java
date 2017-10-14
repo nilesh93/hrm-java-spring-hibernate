@@ -66,5 +66,43 @@ public class EmployeeDAO {
             session.close();
         }
     }
+    
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public static Employee getEmployee(Integer id) throws Exception {
+
+        List<Employee> result = null;
+        Transaction transaction = null;
+        Session session = null;
+
+        try {
+
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("FROM Employee where id = "+ id.toString());
+            result = query.list();
+            transaction.commit();
+           
+
+        } catch (HibernateException e) {
+
+            if (transaction != null) {
+                transaction.rollback();
+                e.printStackTrace();
+            }
+
+        } finally {
+            session.close();
+        }
+
+        if(result.equals(null) || result.size() == 0){
+            throw new Exception("NOT FOUND");
+        }
+        return result.get(0);
+
+    }
 
 }

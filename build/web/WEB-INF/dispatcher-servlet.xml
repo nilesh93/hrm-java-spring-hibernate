@@ -12,7 +12,8 @@
     <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
     <bean class="controllers.RoleController" id="roleController"></bean>
     <bean class="controllers.TaskController" id="taskController"></bean>
-     <bean class="controllers.EmployeeController" id="employeeController"></bean>
+    <bean class="controllers.EmployeeController" id="employeeController"></bean>
+    <bean class="controllers.EmployeeViewController" id="employeeViewController"></bean>
     <!--
     Most controllers will use the ControllerClassNameHandlerMapping above, but
     for the index controller we are using ParameterizableViewController, so we must
@@ -24,7 +25,9 @@
                 <prop key="index.htm">indexController</prop>
                 <prop key="role.htm">roleController</prop>
                 <prop key="task.htm">taskController</prop>
+                <prop key="eview.htm">employeeViewController</prop>
                 <prop key="employee.htm">employeeController</prop>
+               
                 
             </props>
         </property>

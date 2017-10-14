@@ -1,18 +1,23 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
+
+<%@include file="header.jsp" %>
 
 
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Welcome to Spring Web MVC project</title>
-    </head>
+<div class="row">
+    <div class="col-md-12">
+        <h1>Hello!</h1>
+        <h2>Welcome to Human Resource Management System.</h2>
+        <br>
+        <br>
 
-    <body>
- 
-        
-        <a href="roles.htm"> Role List</a>
-    </body>
-</html>
+        <h3>Get Started</h3>
+        <hr>  
+        <p>Add / Edit Roles to the System from <a href="roles.htm">here</a>.</p>
+        <p>Add / Edit Employees tasks to the System from <a href="tasks.htm">here</a>.</p>
+        <p>Add / Edit Employees, Assign roles, Assign / Remove tasks for employees from the System from
+            <a href="employee.htm">here</a>.</p>
+    </div>
+
+</div>
+<%@include file="footer.jsp" %>

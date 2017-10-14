@@ -23,6 +23,7 @@ public class EmployeeController implements Controller {
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
+
         ModelAndView mv = null;
         String method = hsr.getMethod();
         if (method == "POST") {
@@ -53,7 +54,8 @@ public class EmployeeController implements Controller {
 
         try {
             List<Employee> emps = EmployeeDAO.getEmployeeList();
-
+            List<Role> roles = RoleDAO.get();
+            mv.addObject("roles", roles);
             mv.addObject("employees", emps);
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,7 +65,14 @@ public class EmployeeController implements Controller {
 
     private void save(HttpServletRequest hsr) {
         Employee emp = new Employee();
+        int roleId = Integer.parseInt(hsr.getParameter("role"));
+        if (roleId != 0) {
+            Role role = new Role();
+            role.setId(roleId);
+            emp.setRole(role);
+        }
         emp.setName(hsr.getParameter("name"));
+
         EmployeeDAO.saveOrUpdateEmployee(emp);
 
     }

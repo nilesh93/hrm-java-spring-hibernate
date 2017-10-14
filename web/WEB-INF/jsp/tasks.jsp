@@ -38,7 +38,8 @@
             <td> <c:out value="${task.getId()}"></c:out> </td>
             <td> <c:out value="${task.getDescription()}"></c:out> </td>
                 <td>  
-                    <button type="button" class="btn btn-xs btn-default btn-block" onclick="edit(${task.getId()}, '${task.getDescription()}')"> EDIT </button>
+                    <button type="button" class="btn btn-xs btn-default btn-block"
+                            onclick="edit(${task.getId()}, '${task.getDescription()}')"> Edit </button>
             </td>
         </tr>
     </c:forEach>
