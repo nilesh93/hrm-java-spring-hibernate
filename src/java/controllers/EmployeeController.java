@@ -5,8 +5,6 @@
  */
 package controllers;
 
-import daos.EmployeeDAO;
-import daos.RoleDAO;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +12,8 @@ import models.Employee;
 import models.Role;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
+import service.EmployeeService;
+import service.RoleService;
 
 /**
  * Maps to route employee.htm
@@ -65,8 +65,8 @@ public class EmployeeController implements Controller {
         ModelAndView mv = new ModelAndView("employees");
 
         try {
-            List<Employee> emps = EmployeeDAO.getEmployeeList();
-            List<Role> roles = RoleDAO.get();
+            List<Employee> emps = new EmployeeService().getAll();
+            List<Role> roles = new RoleService().getAll();
             mv.addObject("roles", roles);
             mv.addObject("employees", emps);
         } catch (Exception e) {
@@ -81,17 +81,9 @@ public class EmployeeController implements Controller {
      * @param hsr
      */
     private void save(HttpServletRequest hsr) {
-        Employee emp = new Employee();
         int roleId = Integer.parseInt(hsr.getParameter("role"));
-        if (roleId != 0) {
-            Role role = new Role();
-            role.setId(roleId);
-            emp.setRole(role);
-        }
-        emp.setName(hsr.getParameter("name"));
-
-        EmployeeDAO.saveOrUpdateEmployee(emp);
-
+        String name = hsr.getParameter("name");
+        new EmployeeService().save(roleId, name);
     }
 
 }
