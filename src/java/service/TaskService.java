@@ -24,4 +24,17 @@ public class TaskService {
         task.setEmployee(null);
         TaskDAO.saveOrUpdateTask(task);
     }
+
+    public void save(String desc) {
+        Task task = new Task();
+        task.setDescription(desc);
+        TaskDAO.saveOrUpdateTask(task);
+    }
+
+    public void update(Integer id, String desc) {
+        Task task = new Task();
+        task.setDescription(desc);
+        task.setId(id);
+        TaskDAO.saveOrUpdateTask(task);
+    }
 }

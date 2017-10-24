@@ -5,13 +5,13 @@
  */
 package controllers;
 
-import daos.RoleDAO;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Role;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
+import service.RoleService;
 
 /**
  * Maps to roles.htm
@@ -72,7 +72,7 @@ public class RoleController implements Controller {
         ModelAndView mv = new ModelAndView("roles");
 
         try {
-            List<Role> roles = RoleDAO.get();
+            List<Role> roles = new RoleService().getAll();
 
             mv.addObject("roles", roles);
         } catch (Exception e) {
@@ -86,10 +86,8 @@ public class RoleController implements Controller {
      * @param hsr 
      */
     private void save(HttpServletRequest hsr) {
-        Role role = new Role();
-        role.setTitle(hsr.getParameter("title"));
-        RoleDAO.saveOrUpdateRole(role);
-
+        String title = hsr.getParameter("title");
+        new RoleService().save(title);
     }
 
     /**
@@ -97,11 +95,8 @@ public class RoleController implements Controller {
      * @param hsr 
      */
     private void update(HttpServletRequest hsr) {
-
-        Role role = new Role();
-        role.setTitle(hsr.getParameter("title"));
-        role.setId(Integer.parseInt(hsr.getParameter("id")));
-        RoleDAO.saveOrUpdateRole(role);
-
+        String title = hsr.getParameter("title");
+        Integer id = Integer.parseInt(hsr.getParameter("id"));
+        new RoleService().update(id, title);
     }
 }

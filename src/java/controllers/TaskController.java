@@ -5,12 +5,9 @@
  */
 package controllers;
 
-import daos.RoleDAO;
-import daos.TaskDAO;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.Role;
 import models.Task;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -18,6 +15,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
+import service.TaskService;
 
 /**
  * Maps to tasks.htm
@@ -78,7 +76,7 @@ public class TaskController implements Controller {
         ModelAndView mv = new ModelAndView("tasks");
 
         try {
-            List<Task> tasks = TaskDAO.getTaskList();
+            List<Task> tasks = new TaskService().getAll();
             mv.addObject("tasks", tasks);
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,9 +89,8 @@ public class TaskController implements Controller {
      * @param hsr 
      */
     private void save(HttpServletRequest hsr) {
-        Task task = new Task();
-        task.setDescription(hsr.getParameter("desc"));
-        TaskDAO.saveOrUpdateTask(task);
+        String desc = hsr.getParameter("desc");
+        new TaskService().save(desc);
     }
 
     /**
@@ -102,10 +99,8 @@ public class TaskController implements Controller {
      */
     private void update(HttpServletRequest hsr) {
 
-        Task task = new Task();
-        task.setDescription(hsr.getParameter("desc"));
-        task.setId(Integer.parseInt(hsr.getParameter("id")));
-        TaskDAO.saveOrUpdateTask(task);
-
+        String desc = hsr.getParameter("desc");
+        Integer id = Integer.parseInt(hsr.getParameter("id"));
+        new TaskService().update(id, desc);
     }
 }
