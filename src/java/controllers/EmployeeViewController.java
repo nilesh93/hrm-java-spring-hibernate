@@ -5,9 +5,6 @@
  */
 package controllers;
 
-import daos.EmployeeDAO;
-import daos.RoleDAO;
-import daos.TaskDAO;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +13,9 @@ import models.Role;
 import models.Task;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
+import service.EmployeeService;
+import service.RoleService;
+import service.TaskService;
 
 /**
  * Maps to eview.htm
@@ -88,9 +88,9 @@ public class EmployeeViewController implements Controller {
         ModelAndView mv = new ModelAndView("employee-view");
 
         try {
-            Employee emp = EmployeeDAO.getEmployee(id);
-            List<Role> roles = RoleDAO.get();
-            List<Task> tasks = TaskDAO.getTaskUnasignedTasks();
+            Employee emp = new EmployeeService().getBy(id);
+            List<Role> roles = new RoleService().getAll();
+            List<Task> tasks = new TaskService().getAll();
             mv.addObject("employee", emp);
             mv.addObject("tasks", tasks);
             mv.addObject("roles", roles);
@@ -106,11 +106,11 @@ public class EmployeeViewController implements Controller {
      * @param hsr 
      */
     private void patchEmployee(HttpServletRequest hsr) {
-        Employee emp;
         try {
-            emp = EmployeeDAO.getEmployee(Integer.parseInt(hsr.getParameter("id")));
-            emp.setName(hsr.getParameter("name"));
-            EmployeeDAO.saveOrUpdateEmployee(emp);
+            int id = Integer.parseInt(hsr.getParameter("id"));
+            String name = hsr.getParameter("name");
+            new EmployeeService().save(id, name);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -121,22 +121,13 @@ public class EmployeeViewController implements Controller {
      * @param hsr 
      */
     private void changeRole(HttpServletRequest hsr) {
-        Employee emp;
         try {
-            emp = EmployeeDAO.getEmployee(Integer.parseInt(hsr.getParameter("id")));
+            int id = Integer.parseInt(hsr.getParameter("id"));
             int roleId = Integer.parseInt(hsr.getParameter("role"));
-            if (roleId != 0) {
-                Role role = new Role();
-                role.setId(roleId);
-                emp.setRole(role);
-            } else {
-                emp.setRole(null);
-            }
-            EmployeeDAO.saveOrUpdateEmployee(emp);
+            new EmployeeService().updateRole(id, roleId);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -147,18 +138,15 @@ public class EmployeeViewController implements Controller {
         Employee emp;
         try {
             
-            int taskId = Integer.parseInt(hsr.getParameter("task"));
+            Integer taskId = Integer.parseInt(hsr.getParameter("task"));
             if (taskId != 0) {
-                Task task = TaskDAO.getTaskById(taskId);
-                emp = EmployeeDAO.getEmployee(Integer.parseInt(hsr.getParameter("id")));
-                task.setEmployee(emp);
-                TaskDAO.saveOrUpdateTask(task);
-            } 
+                Integer empId = Integer.parseInt(hsr.getParameter("id"));
+                new TaskService().add(taskId, empId);
+            }
             
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
     
     /**
@@ -166,20 +154,14 @@ public class EmployeeViewController implements Controller {
      * @param hsr 
      */
     private void removeEmployeeTask(HttpServletRequest hsr) {
-        
         try {
-            
             int taskId = Integer.parseInt(hsr.getParameter("task"));
             if (Integer.parseInt(hsr.getParameter("id")) != 0) {
-                Task task = TaskDAO.getTaskById(taskId);
-                task.setEmployee(null);
-                TaskDAO.saveOrUpdateTask(task);
-            } 
+                new TaskService().removeEmployee(taskId);
+            }
             
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 }
