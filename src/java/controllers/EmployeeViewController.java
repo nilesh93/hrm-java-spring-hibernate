@@ -19,6 +19,9 @@ import org.springframework.web.servlet.mvc.Controller;
 import services.EmployeeService;
 import services.RoleService;
 import services.TaskService;
+import services.interfaces.IEmployeeService;
+import services.interfaces.IRoleService;
+import services.interfaces.ITaskService;
 import util.MethodIdentifier;
 
 /**
@@ -27,6 +30,10 @@ import util.MethodIdentifier;
  * @author Nilesh
  */
 public class EmployeeViewController implements Controller {
+
+    ITaskService tsk = new TaskService();
+    IEmployeeService emps = new EmployeeService();
+    IRoleService rs = new RoleService();
 
     /**
      * Handle requests to this controller
@@ -50,28 +57,28 @@ public class EmployeeViewController implements Controller {
                 break;
 
             case "PATCH":
-                EmployeeService.updateEmployee(Integer.parseInt(hsr.getParameter("id")),
+                emps.updateEmployee(Integer.parseInt(hsr.getParameter("id")),
                         hsr.getParameter("name"));
                 mv.addObject("flag", true);
                 mv.addObject("message", "Employee Updated Successfully!");
                 break;
 
             case "CHANGE_ROLE":
-                EmployeeService.changeRole(Integer.parseInt(hsr.getParameter("id")),
+                emps.changeRole(Integer.parseInt(hsr.getParameter("id")),
                         Integer.parseInt(hsr.getParameter("role")));
                 mv.addObject("flag", true);
                 mv.addObject("message", "Employee Role Updated Successfully!");
                 break;
 
             case "ADD_TASK":
-                TaskService.assignEmployee(Integer.parseInt(hsr.getParameter("task")),
-                        EmployeeDAO.getEmployee(Integer.parseInt(hsr.getParameter("id"))));
+                tsk.assignEmployee(Integer.parseInt(hsr.getParameter("task")),
+                        emps.getEmployeeById(Integer.parseInt(hsr.getParameter("id"))));
                 mv.addObject("flag", true);
                 mv.addObject("message", "Employee Task Added Successfully!");
                 break;
 
             case "REMOVE_TASK":
-                TaskService.removeTaskAssign(Integer.parseInt(hsr.getParameter("task")));
+                tsk.removeTaskAssign(Integer.parseInt(hsr.getParameter("task")));
                 mv.addObject("flag", true);
                 mv.addObject("message", "Employee Task Removed Successfully!");
                 break;
@@ -92,9 +99,9 @@ public class EmployeeViewController implements Controller {
         ModelAndView mv = new ModelAndView("employee-view");
 
         try {
-            mv.addObject("employee", EmployeeService.getEmployeeById(id));
-            mv.addObject("tasks", TaskService.getUnassignedTasks());
-            mv.addObject("roles", RoleService.getRoles());
+            mv.addObject("employee", emps.getEmployeeById(id));
+            mv.addObject("tasks", tsk.getUnassignedTasks());
+            mv.addObject("roles", rs.getRoles());
         } catch (Exception e) {
             mv = new ModelAndView("404");
             e.printStackTrace();

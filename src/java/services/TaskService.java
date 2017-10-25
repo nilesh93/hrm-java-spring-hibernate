@@ -7,22 +7,25 @@ package services;
 
 import daos.EmployeeDAO;
 import daos.TaskDAO;
+import daos.interfaces.ITaskDAO;
 import java.util.List;
 import models.Employee;
 import models.Task;
+import services.interfaces.ITaskService;
 
 /**
  *
  * @author Nilesh
  */
-public class TaskService {
+public class TaskService implements ITaskService {
 
+    ITaskDAO tsk = new TaskDAO();
     /**
      * List all tasks
      * @return 
      */
-    public static List getTasks() {
-        List<Task> tasks = TaskDAO.getTaskList();
+    public  List getTasks() {
+        List<Task> tasks = tsk.getTaskList();
         return tasks;
     }
 
@@ -30,8 +33,8 @@ public class TaskService {
      * List all tasks where an employee is not assigned
      * @return 
      */
-    public static List getUnassignedTasks() {
-        List<Task> tasks = TaskDAO.getTaskUnasignedTasks();
+    public  List getUnassignedTasks() {
+        List<Task> tasks = tsk.getTaskUnasignedTasks();
         return tasks;
     }
 
@@ -39,10 +42,10 @@ public class TaskService {
      * Create Task
      * @param dsc 
      */
-    public static void saveTask(String dsc) {
+    public  void saveTask(String dsc) {
         Task task = new Task();
         task.setDescription(dsc);
-        TaskDAO.saveOrUpdateTask(task);
+        tsk.saveOrUpdateTask(task);
     }
 
     
@@ -51,11 +54,11 @@ public class TaskService {
      * @param id
      * @param desc 
      */
-    public static void updateTask(int id, String desc) throws Exception{
+    public  void updateTask(int id, String desc) throws Exception{
     
-        Task task = TaskService.getTaskById(id);
+        Task task = this.getTaskById(id);
         task.setDescription(desc);
-        TaskDAO.saveOrUpdateTask(task);
+        tsk.saveOrUpdateTask(task);
         
     }
     
@@ -65,8 +68,8 @@ public class TaskService {
      * @return
      * @throws Exception 
      */
-    public static Task getTaskById(int taskId) throws Exception {
-        Task task = TaskDAO.getTaskById(taskId);
+    public  Task getTaskById(int taskId) throws Exception {
+        Task task = tsk.getTaskById(taskId);
         return task;
     }
 
@@ -76,12 +79,12 @@ public class TaskService {
      * @param emp
      * @throws Exception 
      */
-    public static void assignEmployee(int taskId, Employee emp) throws Exception {
+    public  void assignEmployee(int taskId, Employee emp) throws Exception {
 
         if (taskId != 0) {
-            Task task = TaskService.getTaskById(taskId);
+            Task task = this.getTaskById(taskId);
             task.setEmployee(emp);
-            TaskDAO.saveOrUpdateTask(task);
+            tsk.saveOrUpdateTask(task);
         }
     }
 
@@ -90,11 +93,11 @@ public class TaskService {
      * @param taskId
      * @throws Exception 
      */
-    public static void removeTaskAssign(int taskId) throws Exception {
+    public  void removeTaskAssign(int taskId) throws Exception {
 
-        Task task = TaskService.getTaskById(taskId);
+        Task task = this.getTaskById(taskId);
         task.setEmployee(null);
-        TaskDAO.saveOrUpdateTask(task);
+        tsk.saveOrUpdateTask(task);
 
     }
 }

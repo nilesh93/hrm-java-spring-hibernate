@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import services.EmployeeService;
 import services.RoleService;
+import services.interfaces.IEmployeeService;
 import util.MethodIdentifier;
 
 /**
@@ -20,6 +21,7 @@ import util.MethodIdentifier;
  */
 public class EmployeeController implements Controller {
 
+       IEmployeeService emps = new EmployeeService();
     /**
      * Handle requests
      *
@@ -41,7 +43,7 @@ public class EmployeeController implements Controller {
                 break;
 
             case "POST":
-                EmployeeService.saveEmployee(Integer.parseInt(hsr.getParameter("role")), hsr.getParameter("name"));
+                emps.saveEmployee(Integer.parseInt(hsr.getParameter("role")), hsr.getParameter("name"));
                 mv.addObject("flag", true);
                 mv.addObject("message", "Employee Added Successfully!");
                 break;
@@ -57,10 +59,10 @@ public class EmployeeController implements Controller {
      */
     public ModelAndView get() {
         ModelAndView mv = new ModelAndView("employees");
-
+        
         try {
-            mv.addObject("roles", RoleService.getRoles());
-            mv.addObject("employees", EmployeeService.getEmployeeList());
+            mv.addObject("roles", new RoleService().getRoles());
+            mv.addObject("employees", emps.getEmployeeList());
         } catch (Exception e) {
             e.printStackTrace();
         }

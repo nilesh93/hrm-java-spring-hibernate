@@ -5,6 +5,7 @@
  */
 package daos;
 
+import daos.interfaces.IRoleDAO;
 import java.util.List;
 import models.Role;
 import org.hibernate.HibernateException;
@@ -17,13 +18,13 @@ import util.HibernateUtil;
  *
  * @author nileshjayanandana
  */
-public class RoleDAO {
+public class RoleDAO implements IRoleDAO{
 
     /**
      * Get Role List
      * @return 
      */
-    public static List<Role> get() {
+    public  List<Role> get() {
         List<Role> roleList = null;
         Transaction transaction = null;
         Session session = null;
@@ -49,7 +50,7 @@ public class RoleDAO {
      * Save or Update Role
      * @param role 
      */
-    public static void saveOrUpdateRole(Role role){
+    public  void saveOrUpdateRole(Role role){
         Transaction transaction = null;
         Session session = null;
         try{

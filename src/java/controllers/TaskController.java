@@ -19,6 +19,7 @@ import org.hibernate.Transaction;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import services.TaskService;
+import services.interfaces.ITaskService;
 import util.MethodIdentifier;
 
 /**
@@ -27,6 +28,8 @@ import util.MethodIdentifier;
  * @author Nilesh
  */
 public class TaskController implements Controller {
+
+    ITaskService tsk = new TaskService();
 
     /**
      * Main Request Handler for this controller
@@ -50,14 +53,14 @@ public class TaskController implements Controller {
                 break;
 
             case "POST":
-                TaskService.saveTask(hsr.getParameter("desc"));
+                tsk.saveTask(hsr.getParameter("desc"));
 
                 mv.addObject("flag", true);
                 mv.addObject("message", "Task Added Successfully!");
                 break;
 
             case "PUT":
-                TaskService.updateTask(Integer.parseInt(hsr.getParameter("id")),
+                tsk.updateTask(Integer.parseInt(hsr.getParameter("id")),
                         hsr.getParameter("desc"));
 
                 mv.addObject("flag", true);
@@ -82,7 +85,7 @@ public class TaskController implements Controller {
         ModelAndView mv = new ModelAndView("tasks");
 
         try {
-            mv.addObject("tasks", TaskService.getTasks());
+            mv.addObject("tasks", tsk.getTasks());
         } catch (Exception e) {
             e.printStackTrace();
         }
