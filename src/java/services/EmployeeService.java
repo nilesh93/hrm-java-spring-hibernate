@@ -17,6 +17,11 @@ import models.Role;
  */
 public class EmployeeService {
 
+    /**
+     * Create a new employee
+     * @param roleId
+     * @param empName 
+     */
     public static void saveEmployee(int roleId, String empName) {
 
         Employee emp = new Employee();
@@ -29,11 +34,21 @@ public class EmployeeService {
         EmployeeDAO.saveOrUpdateEmployee(emp);
     }
 
+    /**
+     * Get employee list
+     * @return 
+     */
     public static List getEmployeeList() {
         List<Employee> emps = EmployeeDAO.getEmployeeList();
         return emps;
     }
 
+    /**
+     * Update employee partially (PATCH)
+     * @param id
+     * @param name
+     * @throws Exception 
+     */
     public static void updateEmployee(int id, String name) throws Exception {
 
         Employee emp;
@@ -43,11 +58,23 @@ public class EmployeeService {
 
     }
 
+    /**
+     * Retrieve Employee details by ID
+     * @param id
+     * @return
+     * @throws Exception 
+     */
     public static Employee getEmployeeById(int id) throws Exception {
         Employee emp = EmployeeDAO.getEmployee(id);
         return emp;
     }
 
+    /**
+     * Change role of an Employee
+     * @param empId
+     * @param roleId
+     * @throws Exception 
+     */
     public static void changeRole(int empId, int roleId) throws Exception {
         Employee emp;
         emp = EmployeeDAO.getEmployee(empId);
