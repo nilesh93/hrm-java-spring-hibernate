@@ -11,14 +11,35 @@
 
 
 <div class="row">
-    <div class="col-md-12">
-        <h1> Employee Details</h1> 
-        <h3> Name -  <c:out value="${employee.getName()}"></c:out>  
+    <div class="col-md-6">
+         
+         <h3   >Employee Information</h3>
+         <hr>
+            <div class="panel  ">
+               
+                <div class="panel-body">
+                    <table class="table table-hover" style="font-size: 127%;">
+                         <tr>
+                            <td>EMPLOYEE ID</td>
+                            <td><c:out value="${employee.getId()}"></c:out>  </td>
+                        </tr>
+                        <tr>
+                            <td>NAME</td>
+                            <td><c:out value="${employee.getName()}"></c:out>  </td>
+                        </tr>
+                         <tr>
+                            <td>ROLE</td>
+                            <td> <span class="label label-info"> <c:out value="${employee.getRole().getTitle()}"></c:out> </span></td>
+                        </tr>
+                         <tr>
+                            <td>TASKS ASSIGNED</td>
+                            <td> <c:out value="${employee.getTasks().size()}"></c:out></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
 
-            </h3>
 
-            <h3> Role -  <c:out value="${employee.getRole().getTitle()}"></c:out>  </h3>
-        <h3> Tasks Assigned -  <c:out value="${employee.getTasks().size()}"></c:out>  </h3>
             <button class="btn btn-info " style="margin-top:1%" 
                     data-toggle="modal" data-target="#editModal"> EDIT</button>
             <button class="btn btn-default " style="margin-top:1%" 
@@ -176,7 +197,7 @@
 
                     <input type="hidden" name="id" value="${employee.getId()}">
                     <input type="hidden" name="task" id="taskid">
-                   
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
