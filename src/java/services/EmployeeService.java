@@ -6,23 +6,26 @@
 package services;
 
 import daos.EmployeeDAO;
+import daos.interfaces.IEmployeeDAO;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import models.Employee;
 import models.Role;
+import services.interfaces.IEmployeeService;
 
 /**
  *
  * @author Nilesh
  */
-public class EmployeeService {
+public class EmployeeService implements IEmployeeService {
 
+    IEmployeeDAO empd = new EmployeeDAO();
     /**
      * Create a new employee
      * @param roleId
      * @param empName 
      */
-    public static void saveEmployee(int roleId, String empName) {
+    public  void saveEmployee(int roleId, String empName) {
 
         Employee emp = new Employee();
         if (roleId != 0) {
@@ -31,15 +34,15 @@ public class EmployeeService {
             emp.setRole(role);
         }
         emp.setName(empName);
-        EmployeeDAO.saveOrUpdateEmployee(emp);
+        empd.saveOrUpdateEmployee(emp);
     }
 
     /**
      * Get employee list
      * @return 
      */
-    public static List getEmployeeList() {
-        List<Employee> emps = EmployeeDAO.getEmployeeList();
+    public  List getEmployeeList() {
+        List<Employee> emps = empd.getEmployeeList();
         return emps;
     }
 
@@ -49,12 +52,12 @@ public class EmployeeService {
      * @param name
      * @throws Exception 
      */
-    public static void updateEmployee(int id, String name) throws Exception {
+    public void updateEmployee(int id, String name) throws Exception {
 
         Employee emp;
-        emp = EmployeeDAO.getEmployee(id);
+        emp = empd.getEmployee(id);
         emp.setName(name);
-        EmployeeDAO.saveOrUpdateEmployee(emp);
+        empd.saveOrUpdateEmployee(emp);
 
     }
 
@@ -64,8 +67,8 @@ public class EmployeeService {
      * @return
      * @throws Exception 
      */
-    public static Employee getEmployeeById(int id) throws Exception {
-        Employee emp = EmployeeDAO.getEmployee(id);
+    public  Employee getEmployeeById(int id) throws Exception {
+        Employee emp = empd.getEmployee(id);
         return emp;
     }
 
@@ -75,9 +78,9 @@ public class EmployeeService {
      * @param roleId
      * @throws Exception 
      */
-    public static void changeRole(int empId, int roleId) throws Exception {
+    public  void changeRole(int empId, int roleId) throws Exception {
         Employee emp;
-        emp = EmployeeDAO.getEmployee(empId);
+        emp = empd.getEmployee(empId);
         if (roleId != 0) {
             Role role = new Role();
             role.setId(roleId);
@@ -85,7 +88,7 @@ public class EmployeeService {
         } else {
             emp.setRole(null);
         }
-        EmployeeDAO.saveOrUpdateEmployee(emp);
+        empd.saveOrUpdateEmployee(emp);
 
     }
 }

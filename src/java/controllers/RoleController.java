@@ -13,6 +13,7 @@ import models.Role;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import services.RoleService;
+import services.interfaces.IRoleService;
 import util.MethodIdentifier;
 
 /**
@@ -21,6 +22,8 @@ import util.MethodIdentifier;
  * @author nileshjayanandana
  */
 public class RoleController implements Controller {
+
+    IRoleService rs = new RoleService();
 
     /**
      * Handles Controller Requests
@@ -35,7 +38,7 @@ public class RoleController implements Controller {
 
         ModelAndView mv = null;
         mv = get();
-        
+
         String method = MethodIdentifier.identifyMethod(hsr);
         switch (method) {
             case "GET":
@@ -43,14 +46,14 @@ public class RoleController implements Controller {
                 break;
 
             case "POST":
-                RoleService.saveRole(hsr.getParameter("title"));
+                rs.saveRole(hsr.getParameter("title"));
 
                 mv.addObject("flag", true);
                 mv.addObject("message", "Role Added Successfully!");
                 break;
 
             case "PUT":
-                RoleService.updateRole(Integer.parseInt(hsr.getParameter("id")),
+                rs.updateRole(Integer.parseInt(hsr.getParameter("id")),
                         hsr.getParameter("title"));
 
                 mv.addObject("flag", true);
@@ -75,7 +78,7 @@ public class RoleController implements Controller {
         ModelAndView mv = new ModelAndView("roles");
 
         try {
-            mv.addObject("roles", RoleService.getRoles());
+            mv.addObject("roles",rs.getRoles());
         } catch (Exception e) {
             e.printStackTrace();
         }

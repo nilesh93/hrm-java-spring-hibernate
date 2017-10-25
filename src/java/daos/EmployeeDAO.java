@@ -5,6 +5,7 @@
  */
 package daos;
 
+import daos.interfaces.IEmployeeDAO;
 import java.util.List;
 import models.Employee;
 import models.Role;
@@ -18,13 +19,13 @@ import util.HibernateUtil;
  *
  * @author Nilesh
  */
-public class EmployeeDAO {
+public class EmployeeDAO implements IEmployeeDAO{
 
     /**
      * Get Employee List from Query
      * @return Employee List
      */
-    public static List getEmployeeList() {
+    public  List getEmployeeList() {
 
         List<Employee> employeeList = null;
         Transaction transaction = null;
@@ -57,7 +58,7 @@ public class EmployeeDAO {
      * Save or Update an Employee
      * @param emp
      */
-    public static void saveOrUpdateEmployee(Employee emp) {
+    public  void saveOrUpdateEmployee(Employee emp) {
         Transaction transaction = null;
         Session session = null;
         try {
@@ -80,7 +81,7 @@ public class EmployeeDAO {
      * @param id
      * @return Employee
      */
-    public static Employee getEmployee(Integer id) throws Exception {
+    public  Employee getEmployee(Integer id) throws Exception {
 
         List<Employee> result = null;
         Transaction transaction = null;
