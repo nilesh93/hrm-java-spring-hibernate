@@ -15,17 +15,30 @@ import models.Role;
  */
 public class RoleService {
 
+    /**
+     * List Roles
+     * @return 
+     */
     public static List getRoles() {
         List<Role> roles = RoleDAO.get();
         return roles;
     }
 
+    /**
+     * Save Role
+     * @param title 
+     */
     public static void saveRole(String title) {
         Role role = new Role();
         role.setTitle(title);
         RoleDAO.saveOrUpdateRole(role);
     }
 
+    /**
+     * Update the entire Role Object (PUT)
+     * @param id
+     * @param title 
+     */
     public static void updateRole(int id, String title) {
         Role role = new Role();
         role.setTitle(title);

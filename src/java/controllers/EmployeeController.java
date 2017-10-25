@@ -51,6 +51,10 @@ public class EmployeeController implements Controller {
         return mv;
     }
 
+    /**
+     * Generate get view
+     * @return 
+     */
     public ModelAndView get() {
         ModelAndView mv = new ModelAndView("employees");
 
