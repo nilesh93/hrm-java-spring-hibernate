@@ -42,8 +42,8 @@ public class TaskController implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
 
-        ModelAndView mv = null;
-        mv = get();
+        ModelAndView mv = new ModelAndView("tasks");
+       
 
         String method = MethodIdentifier.identifyMethod(hsr);
 
@@ -71,6 +71,7 @@ public class TaskController implements Controller {
                 break;
         }
 
+        get(mv);
         mv.addObject("page", "task");
         return mv;
     }
@@ -80,9 +81,7 @@ public class TaskController implements Controller {
      *
      * @return
      */
-    private ModelAndView get() {
-
-        ModelAndView mv = new ModelAndView("tasks");
+    private ModelAndView get(   ModelAndView mv ) {
 
         try {
             mv.addObject("tasks", tsk.getTasks());

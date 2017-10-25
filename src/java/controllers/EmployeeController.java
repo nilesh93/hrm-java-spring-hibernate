@@ -31,9 +31,9 @@ public class EmployeeController implements Controller {
      * @throws Exception
      */
     @Override
-    public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
+    public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) {
 
-        ModelAndView mv = get();
+         ModelAndView mv = new ModelAndView("employees");
 
         String method = MethodIdentifier.identifyMethod(hsr);
 
@@ -49,6 +49,7 @@ public class EmployeeController implements Controller {
                 break;
 
         }
+        get(mv);
         mv.addObject("page", "employee");
         return mv;
     }
@@ -57,8 +58,8 @@ public class EmployeeController implements Controller {
      * Generate get view
      * @return 
      */
-    public ModelAndView get() {
-        ModelAndView mv = new ModelAndView("employees");
+    public void get(ModelAndView mv) {
+       
         
         try {
             mv.addObject("roles", new RoleService().getRoles());
@@ -66,7 +67,7 @@ public class EmployeeController implements Controller {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return mv;
+        
     }
 
 }

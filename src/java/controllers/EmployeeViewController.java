@@ -47,8 +47,7 @@ public class EmployeeViewController implements Controller {
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
 
         Integer id = Integer.parseInt(hsr.getParameter("id"));
-        ModelAndView mv = null;
-        mv = getEmployee(id);
+        ModelAndView mv = new ModelAndView("employee-view");
 
         String method = MethodIdentifier.identifyMethod(hsr);
         switch (method) {
@@ -84,6 +83,7 @@ public class EmployeeViewController implements Controller {
                 break;
 
         }
+        getEmployee(id, mv);
         mv.addObject("page", "employee");
         return mv;
     }
@@ -94,9 +94,7 @@ public class EmployeeViewController implements Controller {
      * @param id
      * @return
      */
-    private ModelAndView getEmployee(Integer id) {
-
-        ModelAndView mv = new ModelAndView("employee-view");
+    private ModelAndView getEmployee(Integer id, ModelAndView mv) {
 
         try {
             mv.addObject("employee", emps.getEmployeeById(id));

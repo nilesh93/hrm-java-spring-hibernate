@@ -36,8 +36,7 @@ public class RoleController implements Controller {
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
 
-        ModelAndView mv = null;
-        mv = get();
+        ModelAndView mv = new ModelAndView("roles");
 
         String method = MethodIdentifier.identifyMethod(hsr);
         switch (method) {
@@ -64,6 +63,7 @@ public class RoleController implements Controller {
                 break;
         }
 
+        get(mv);
         mv.addObject("page", "role");
         return mv;
     }
@@ -73,12 +73,10 @@ public class RoleController implements Controller {
      *
      * @return
      */
-    private ModelAndView get() {
-
-        ModelAndView mv = new ModelAndView("roles");
+    private ModelAndView get(ModelAndView mv) {
 
         try {
-            mv.addObject("roles",rs.getRoles());
+            mv.addObject("roles", rs.getRoles());
         } catch (Exception e) {
             e.printStackTrace();
         }
