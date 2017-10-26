@@ -29,23 +29,17 @@ This application uses following frameworks.
 
 ### Pre-requisites 
   - This application require JDK and GlassFish Server to run
-  - MySQL Server should be up and running on port 3306 (For different port please configure it on ./src/java/hibernate.cfg.xml)
-  - A database should be created on MySQL Servers as 'hrm'
+ 
 
 First of all clone the repository
 
-```sh
-$ git clone https://github.com/gayankalhara/ead-hrm.git
-```
+Create a JavaDB Database as 'hrm'.
 
-Create a MySQL Database as 'hrm' and grant permissions for 'root' user.
-
-If your MySQL configuration is different from following details modify ./src/java/hibernate.cfg.xml to match the changes.
 
 **Host:** localhost
-**User Name:** root
-**Password:** root
-**Port:** 3306
+**User Name:** app
+**Password:** 123
+
 
 ## Running
 
