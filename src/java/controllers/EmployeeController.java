@@ -1,3 +1,4 @@
+ 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,85 +6,70 @@
  */
 package controllers;
 
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.Employee;
-import models.Role;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
-import service.EmployeeService;
-import service.RoleService;
+import services.EmployeeService;
+import services.RoleService;
+import services.interfaces.IEmployeeService;
+import util.MethodIdentifier;
 
 /**
  * Maps to route employee.htm
+ *
  * @author Nilesh
  */
 public class EmployeeController implements Controller {
 
+       IEmployeeService emps = new EmployeeService();
     /**
-     * Handle  requests
+     * Handle requests
+     *
      * @param hsr
      * @param hsr1
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     @Override
-    public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
+    public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) {
 
-        ModelAndView mv = null;
-        String method = hsr.getMethod();
-        if (method == "POST") {
-            method = hsr.getParameter("_method");
-        }
+         ModelAndView mv = new ModelAndView("employees");
+
+        String method = MethodIdentifier.identifyMethod(hsr);
+
         switch (method) {
             case "GET":
-                mv = get();
                 mv.addObject("flag", false);
-
                 break;
 
             case "POST":
-                save(hsr);
-                mv = get();
+                emps.saveEmployee(Integer.parseInt(hsr.getParameter("role")), hsr.getParameter("name"));
                 mv.addObject("flag", true);
                 mv.addObject("message", "Employee Added Successfully!");
                 break;
 
         }
+        get(mv);
         mv.addObject("page", "employee");
         return mv;
     }
 
     /**
-     * Generate Employee List View
-     *
-     * @return
+     * Generate get view
+     * @return 
      */
-    private ModelAndView get() {
-
-        ModelAndView mv = new ModelAndView("employees");
-
+    public void get(ModelAndView mv) {
+       
+        
         try {
-            List<Employee> emps = new EmployeeService().getAll();
-            List<Role> roles = new RoleService().getAll();
-            mv.addObject("roles", roles);
-            mv.addObject("employees", emps);
+            mv.addObject("roles", new RoleService().getRoles());
+            mv.addObject("employees", emps.getEmployeeList());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return mv;
-    }
-
-    /**
-     * Save new Employee
-     *
-     * @param hsr
-     */
-    private void save(HttpServletRequest hsr) {
-        int roleId = Integer.parseInt(hsr.getParameter("role"));
-        String name = hsr.getParameter("name");
-        new EmployeeService().save(roleId, name);
+        
     }
 
 }
+ 

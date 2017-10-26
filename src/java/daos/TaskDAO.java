@@ -5,6 +5,7 @@
  */
 package daos;
 
+import daos.interfaces.ITaskDAO;
 import java.util.List;
 import models.Task;
 import org.hibernate.HibernateException;
@@ -17,13 +18,13 @@ import util.HibernateUtil;
  *
  * @author Nilesh
  */
-public class TaskDAO {
+public class TaskDAO implements ITaskDAO{
 
     /**
      * Get Task List
      * @return 
      */
-    public static List getTaskList() {
+    public  List getTaskList() {
 
         List<Task> taskList = null;
         Transaction transaction = null;
@@ -52,7 +53,7 @@ public class TaskDAO {
      * Save or Update Task
      * @param task 
      */
-    public static void saveOrUpdateTask(Task task) {
+    public  void saveOrUpdateTask(Task task) {
 
         Transaction transaction = null;
         Session session = null;
@@ -80,7 +81,7 @@ public class TaskDAO {
      * Retrieve Unassigned Tasks as List
      * @return 
      */
-    public static List getTaskUnasignedTasks() {
+    public  List getTaskUnasignedTasks() {
 
         List<Task> taskList = null;
         Transaction transaction = null;
@@ -111,7 +112,7 @@ public class TaskDAO {
      * @return
      * @throws Exception 
      */
-    public static Task getTaskById(Integer id) throws Exception {
+    public  Task getTaskById(Integer id) throws Exception {
 
         List<Task> taskList = null;
         Transaction transaction = null;

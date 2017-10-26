@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,6 +6,9 @@
  */
 package controllers;
 
+import daos.EmployeeDAO;
+import daos.RoleDAO;
+import daos.TaskDAO;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,87 +17,90 @@ import models.Role;
 import models.Task;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
-import service.EmployeeService;
-import service.RoleService;
-import service.TaskService;
+import services.EmployeeService;
+import services.RoleService;
+import services.TaskService;
+import services.interfaces.IEmployeeService;
+import services.interfaces.IRoleService;
+import services.interfaces.ITaskService;
+import util.MethodIdentifier;
 
 /**
  * Maps to eview.htm
+ *
  * @author Nilesh
  */
 public class EmployeeViewController implements Controller {
 
+    ITaskService tsk = new TaskService();
+    IEmployeeService emps = new EmployeeService();
+    IRoleService rs = new RoleService();
+
     /**
      * Handle requests to this controller
+     *
      * @param hsr
      * @param hsr1
      * @return
-     * @throws Exception 
+     * @throws Exception
      */
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
-        ModelAndView mv = null;
-        String method = hsr.getMethod();
+
         Integer id = Integer.parseInt(hsr.getParameter("id"));
-        if (method == "POST") {
-            method = hsr.getParameter("_method");
-        }
+        ModelAndView mv = new ModelAndView("employee-view");
+
+        String method = MethodIdentifier.identifyMethod(hsr);
         switch (method) {
             case "GET":
-                mv = getEmployee(id);
                 mv.addObject("flag", false);
-
                 break;
 
             case "PATCH":
-                patchEmployee(hsr);
-                mv = getEmployee(id);
+                emps.updateEmployee(Integer.parseInt(hsr.getParameter("id")),
+                        hsr.getParameter("name"));
                 mv.addObject("flag", true);
                 mv.addObject("message", "Employee Updated Successfully!");
                 break;
 
             case "CHANGE_ROLE":
-                changeRole(hsr);
-                mv = getEmployee(id);
+                emps.changeRole(Integer.parseInt(hsr.getParameter("id")),
+                        Integer.parseInt(hsr.getParameter("role")));
                 mv.addObject("flag", true);
                 mv.addObject("message", "Employee Role Updated Successfully!");
                 break;
 
             case "ADD_TASK":
-                addEmployeeTask(hsr);
-                mv = getEmployee(id);
+                tsk.assignEmployee(Integer.parseInt(hsr.getParameter("task")),
+                        emps.getEmployeeById(Integer.parseInt(hsr.getParameter("id"))));
                 mv.addObject("flag", true);
                 mv.addObject("message", "Employee Task Added Successfully!");
-                break; 
-                
+                break;
+
             case "REMOVE_TASK":
-                removeEmployeeTask(hsr);
-                mv = getEmployee(id);
+                tsk.removeTaskAssign(Integer.parseInt(hsr.getParameter("task")));
                 mv.addObject("flag", true);
                 mv.addObject("message", "Employee Task Removed Successfully!");
-                break; 
+                break;
 
         }
+        getEmployee(id, mv);
         mv.addObject("page", "employee");
         return mv;
     }
 
     /**
      * Generates EmployeeView View from employee ID
+     *
      * @param id
-     * @return 
+     * @return
      */
-    private ModelAndView getEmployee(Integer id) {
-
-        ModelAndView mv = new ModelAndView("employee-view");
+    private ModelAndView getEmployee(Integer id, ModelAndView mv) {
 
         try {
-            Employee emp = new EmployeeService().getBy(id);
-            List<Role> roles = new RoleService().getAll();
-            List<Task> tasks = new TaskService().getAll();
-            mv.addObject("employee", emp);
-            mv.addObject("tasks", tasks);
-            mv.addObject("roles", roles);
+            mv.addObject("employee", emps.getEmployeeById(id));
+            mv.addObject("tasks", tsk.getUnassignedTasks());
+            mv.addObject("roles", rs.getRoles());
         } catch (Exception e) {
             mv = new ModelAndView("404");
             e.printStackTrace();
@@ -101,67 +108,5 @@ public class EmployeeViewController implements Controller {
         return mv;
     }
 
-    /**
-     * Updates employee through PATCH request
-     * @param hsr 
-     */
-    private void patchEmployee(HttpServletRequest hsr) {
-        try {
-            int id = Integer.parseInt(hsr.getParameter("id"));
-            String name = hsr.getParameter("name");
-            new EmployeeService().save(id, name);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Change Employee Role by assigning an unassigned Role or removing existing role
-     * @param hsr 
-     */
-    private void changeRole(HttpServletRequest hsr) {
-        try {
-            int id = Integer.parseInt(hsr.getParameter("id"));
-            int roleId = Integer.parseInt(hsr.getParameter("role"));
-            new EmployeeService().updateRole(id, roleId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Add Employee Task from an existing Task
-     * @param hsr 
-     */
-    private void addEmployeeTask(HttpServletRequest hsr) {
-        Employee emp;
-        try {
-            
-            Integer taskId = Integer.parseInt(hsr.getParameter("task"));
-            if (taskId != 0) {
-                Integer empId = Integer.parseInt(hsr.getParameter("id"));
-                new TaskService().add(taskId, empId);
-            }
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    /**
-     * Remove Employee Task by removing Employee reference in a Task retrieved from TaskID
-     * @param hsr 
-     */
-    private void removeEmployeeTask(HttpServletRequest hsr) {
-        try {
-            int taskId = Integer.parseInt(hsr.getParameter("task"));
-            if (Integer.parseInt(hsr.getParameter("id")) != 0) {
-                new TaskService().removeEmployee(taskId);
-            }
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
+
